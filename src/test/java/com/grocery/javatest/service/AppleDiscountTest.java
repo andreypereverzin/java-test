@@ -8,12 +8,12 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalAdjusters;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.grocery.javatest.model.Product.Apple;
 import static com.grocery.javatest.model.Product.Soup;
+import static com.grocery.javatest.service.TestUtil.getAppleDiscount;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class AppleDiscountTest {
@@ -22,12 +22,9 @@ class AppleDiscountTest {
 
     @BeforeEach
     void setUp() {
-        LocalDate now = LocalDate.now();
-        LocalDate from = now.plus(3, ChronoUnit.DAYS);
-        LocalDate to = from.plus(1, ChronoUnit.MONTHS)
-                .with(TemporalAdjusters.lastDayOfMonth());
-        appleDiscount = new AppleDiscount(from, to);
+        appleDiscount = getAppleDiscount();
     }
+
 
     @Test
     void getDiscount_should_be_applicable_properly() {

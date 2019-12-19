@@ -4,7 +4,7 @@ import com.grocery.javatest.model.Item;
 import com.grocery.javatest.model.Product;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -18,7 +18,7 @@ class ItemsProcessor {
         discounts.add(discount);
     }
 
-    double getPrice(List<Item> items, Date date) {
+    double getPrice(List<Item> items, LocalDate date) {
         Map<Product, Double> normalizedItems = normalizeItems(items);
         BigDecimal price = BigDecimal.ZERO;
 

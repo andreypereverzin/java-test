@@ -12,6 +12,7 @@ import java.util.Map;
 
 import static com.grocery.javatest.model.Product.Bread;
 import static com.grocery.javatest.model.Product.Soup;
+import static com.grocery.javatest.service.TestUtil.getSoupDiscount;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class SoupDiscountTest {
@@ -20,10 +21,7 @@ class SoupDiscountTest {
 
     @BeforeEach
     void setUp() {
-        LocalDate now = LocalDate.now();
-        LocalDate from = now.minus(1, ChronoUnit.DAYS);
-        LocalDate to = from.plus(7, ChronoUnit.DAYS);
-        soupDiscount = new SoupDiscount(from, to);
+        soupDiscount = getSoupDiscount();
     }
 
     @Test
