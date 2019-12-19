@@ -4,14 +4,19 @@ import com.grocery.javatest.model.Item;
 import com.grocery.javatest.model.Product;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 class ItemsProcessor {
-    private final List<Discount> discounts = new ArrayList<>();
+    private final Set<Discount> discounts = new HashSet<>();
+
+    public void addDiscount(Discount discount) {
+        discounts.add(discount);
+    }
 
     double getPrice(List<Item> items, Date date) {
         Map<Product, Double> normalizedItems = normalizeItems(items);
