@@ -8,6 +8,7 @@ import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import static com.grocery.javatest.model.Product.Apple;
+import static com.grocery.javatest.model.Product.Milk;
 import static com.grocery.javatest.model.Product.Soup;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -48,9 +49,23 @@ class ItemsReaderTest {
     }
 
     @Test
-    void readItems_should_read_one_item_and_handlemultiple_spaces() {
+    void readItems_should_read_one_item_and_handle_multiple_spaces() {
         // given
         String line = "soup     1\n\n";
+
+        // when
+        List<Item> items = itemsReader.readItems(new ByteArrayInputStream(line.getBytes()));
+
+        // then
+        assertThat(items).hasSize(1);
+        assertThat(items.get(0).getProduct()).isEqualTo(Soup);
+        assertThat(items.get(0).getAmount()).isEqualTo(1);
+    }
+
+    @Test
+    void readItems_should_read_one_item_and_handle_spaces_at_the_end() {
+        // given
+        String line = "soup 1   \n\n";
 
         // when
         List<Item> items = itemsReader.readItems(new ByteArrayInputStream(line.getBytes()));
@@ -73,6 +88,24 @@ class ItemsReaderTest {
         assertThat(items).hasSize(1);
         assertThat(items.get(0).getProduct()).isEqualTo(Soup);
         assertThat(items.get(0).getAmount()).isEqualTo(3);
+    }
+
+    @Test
+    void readItems_should_read_same_products() {
+        // given
+        String line = "soup\nmilk\nsoup\n\n";
+
+        // when
+        List<Item> items = itemsReader.readItems(new ByteArrayInputStream(line.getBytes()));
+
+        // then
+        assertThat(items).hasSize(3);
+        assertThat(items.get(0).getProduct()).isEqualTo(Soup);
+        assertThat(items.get(0).getAmount()).isEqualTo(1);
+        assertThat(items.get(1).getProduct()).isEqualTo(Milk);
+        assertThat(items.get(1).getAmount()).isEqualTo(1);
+        assertThat(items.get(2).getProduct()).isEqualTo(Soup);
+        assertThat(items.get(2).getAmount()).isEqualTo(1);
     }
 
     @Test
