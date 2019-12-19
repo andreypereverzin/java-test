@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import static com.grocery.javatest.model.Product.Bread;
@@ -27,7 +28,7 @@ class ItemsProcessorTest {
         List<Item> items = asList();
 
         // when
-        double total = itemsProcessor.getPrice(items);
+        double total = itemsProcessor.getPrice(items, new Date());
 
         // then
         assertThat(total).isEqualTo(0.0);
@@ -39,7 +40,7 @@ class ItemsProcessorTest {
         List<Item> items = asList(new Item(Milk, 1));
 
         // when
-        double total = itemsProcessor.getPrice(items);
+        double total = itemsProcessor.getPrice(items, new Date());
 
         // then
         assertThat(total).isEqualTo(getPrice(Milk,1).doubleValue());
@@ -51,7 +52,7 @@ class ItemsProcessorTest {
         List<Item> items = asList(new Item(Milk, 1),new Item(Bread, 1));
 
         // when
-        double total = itemsProcessor.getPrice(items);
+        double total = itemsProcessor.getPrice(items, new Date());
 
         // then
         assertThat(total).isEqualTo(getPrice(Milk,1).add(getPrice(Bread,1)).doubleValue());
