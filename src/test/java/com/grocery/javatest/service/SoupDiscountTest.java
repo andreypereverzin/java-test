@@ -5,9 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,20 +20,24 @@ class SoupDiscountTest {
 
     @BeforeEach
     void setUp() {
-        Instant now = Instant.now();
-        Instant from = now.minus(1, ChronoUnit.DAYS);
-        Instant to = from.plus(7, ChronoUnit.DAYS);
-        soupDiscount = new SoupDiscount(Date.from(from), Date.from(to));
+        LocalDate now = LocalDate.now();
+        LocalDate from = now.minus(1, ChronoUnit.DAYS);
+        LocalDate to = from.plus(7, ChronoUnit.DAYS);
+        soupDiscount = new SoupDiscount(from, to);
     }
 
     @Test
     void getDiscount_should_be_applicable_properly() {
-        Instant now = Instant.now();
-        Instant d1 = now.minus(2, ChronoUnit.DAYS);
-        Instant d2 = now.minus(8, ChronoUnit.DAYS);
-        assertThat(soupDiscount.isApplicable(new Date())).isTrue();
-        assertThat(soupDiscount.isApplicable(Date.from(d1))).isFalse();
-        assertThat(soupDiscount.isApplicable(Date.from(d2))).isFalse();
+        LocalDate now = LocalDate.now();
+        LocalDate d1 = now.minus(1, ChronoUnit.DAYS);
+        LocalDate d2 = now.minus(2, ChronoUnit.DAYS);
+        LocalDate d3 = now.plus(6, ChronoUnit.DAYS);
+        LocalDate d4 = now.plus(7, ChronoUnit.DAYS);
+        assertThat(soupDiscount.isApplicable(now)).isTrue();
+        assertThat(soupDiscount.isApplicable(d1)).isTrue();
+        assertThat(soupDiscount.isApplicable(d2)).isFalse();
+        assertThat(soupDiscount.isApplicable(d3)).isTrue();
+        assertThat(soupDiscount.isApplicable(d4)).isFalse();
     }
 
     @Test
@@ -49,7 +52,7 @@ class SoupDiscountTest {
 
         // then
         assertThat(discount).isEqualTo(Bread.getPrice().divide(BigDecimal.valueOf(2))
-                .setScale(2, BigDecimal.ROUND_UP));
+                .setScale(2, BigDecimal.ROUND_HALF_UP));
     }
 
     @Test
@@ -64,7 +67,7 @@ class SoupDiscountTest {
 
         // then
         assertThat(discount).isEqualTo(Bread.getPrice().divide(BigDecimal.valueOf(2))
-                .setScale(2, BigDecimal.ROUND_UP));
+                .setScale(2, BigDecimal.ROUND_HALF_UP));
     }
 
     @Test
@@ -80,6 +83,6 @@ class SoupDiscountTest {
         // then
         assertThat(discount).isEqualTo(Bread.getPrice()
                 .divide(BigDecimal.valueOf(2)).multiply(BigDecimal.valueOf(2))
-                .setScale(2, BigDecimal.ROUND_UP));
+                .setScale(2, BigDecimal.ROUND_HALF_UP));
     }
 }

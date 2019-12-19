@@ -3,7 +3,8 @@ package com.grocery.javatest.service;
 import com.grocery.javatest.model.Product;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.Map;
 
 import static com.grocery.javatest.model.Product.Bread;
@@ -11,7 +12,7 @@ import static com.grocery.javatest.model.Product.Soup;
 
 public class SoupDiscount extends AbstractDiscount implements Discount {
 
-    protected SoupDiscount(Date from, Date to) {
+    protected SoupDiscount(LocalDate from, LocalDate to) {
         super(from, to);
     }
 
@@ -26,6 +27,7 @@ public class SoupDiscount extends AbstractDiscount implements Discount {
 
         return Bread.getPrice()
                 .divide(BigDecimal.valueOf(2))
-                .multiply(BigDecimal.valueOf(loafsForDiscount));
+                .multiply(BigDecimal.valueOf(loafsForDiscount))
+                .setScale(2, RoundingMode.HALF_UP);
     }
 }
