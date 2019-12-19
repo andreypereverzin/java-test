@@ -10,20 +10,18 @@ import java.util.Optional;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
-class ItemsReader {
+public class ItemsReader {
 
     private static final String SPACE = " ";
     private static final String HELP_STRING =
-            "Enter product and optionally amount separated by space or Enter to finish:";
+            "Enter product and optionally amount separated by space or Enter to finish: ";
 
-    List<Item> readItems(InputStream inputStream) {
-        System.out.println(HELP_STRING);
-
+    public List<Item> readItems(InputStream inputStream) {
         List<Item> items = new ArrayList<>();
 
         Scanner scan = new Scanner(inputStream);
 
-        String line = scan.nextLine();
+        String line = getNextLine(scan);
         while (!line.isEmpty()) {
             try {
                 Item item = parseLine(line);
@@ -31,10 +29,15 @@ class ItemsReader {
             } catch (ParseException ex) {
                 System.out.println(ex.getMessage());
             }
-            line = scan.nextLine();
+            line = getNextLine(scan);
         }
 
         return items;
+    }
+
+    private String getNextLine(Scanner scan) {
+        System.out.print(HELP_STRING);
+        return scan.nextLine();
     }
 
     private Item parseLine(String line) throws ParseException {

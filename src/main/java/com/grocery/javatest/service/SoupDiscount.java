@@ -17,7 +17,7 @@ public class SoupDiscount extends AbstractDiscount implements Discount {
     }
 
     public BigDecimal getDiscount(Map<Product, Double> items) {
-        if (!items.containsKey(Bread)) {
+        if (!items.containsKey(Bread) || !items.containsKey(Soup)) {
             return BigDecimal.ZERO;
         }
 

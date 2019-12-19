@@ -13,7 +13,7 @@ import java.util.Map;
 
 import static com.grocery.javatest.model.Product.Apple;
 import static com.grocery.javatest.model.Product.Soup;
-import static com.grocery.javatest.service.TestUtil.getAppleDiscount;
+import static com.grocery.javatest.service.DiscountUtil.getAppleDiscount;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class AppleDiscountTest {

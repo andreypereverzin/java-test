@@ -11,11 +11,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-class ItemsProcessor {
+public class ItemsProcessor {
     private final Set<Discount> discounts = new HashSet<>();
 
     public void addDiscount(Discount discount) {
         discounts.add(discount);
+    }
+
+    public double getPrice(List<Item> items) {
+        return getPrice(items, LocalDate.now());
     }
 
     double getPrice(List<Item> items, LocalDate date) {

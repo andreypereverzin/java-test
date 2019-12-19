@@ -12,7 +12,7 @@ import java.util.Map;
 
 import static com.grocery.javatest.model.Product.Bread;
 import static com.grocery.javatest.model.Product.Soup;
-import static com.grocery.javatest.service.TestUtil.getSoupDiscount;
+import static com.grocery.javatest.service.DiscountUtil.getSoupDiscount;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class SoupDiscountTest {
@@ -51,6 +51,32 @@ class SoupDiscountTest {
         // then
         assertThat(discount).isEqualTo(Bread.getPrice().divide(BigDecimal.valueOf(2))
                 .setScale(2, BigDecimal.ROUND_HALF_UP));
+    }
+
+    @Test
+    void getDiscount_should_handle_no_soup() {
+        // given
+        Map<Product, Double> items = new HashMap<>();
+        items.put(Bread, 1.0);
+
+        // when
+        BigDecimal discount = soupDiscount.getDiscount(items);
+
+        // then
+        assertThat(discount).isEqualTo(BigDecimal.ZERO);
+    }
+
+    @Test
+    void getDiscount_should_handle_no_bread() {
+        // given
+        Map<Product, Double> items = new HashMap<>();
+        items.put(Soup, 2.0);
+
+        // when
+        BigDecimal discount = soupDiscount.getDiscount(items);
+
+        // then
+        assertThat(discount).isEqualTo(BigDecimal.ZERO);
     }
 
     @Test
